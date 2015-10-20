@@ -158,3 +158,53 @@ footer {
     margin-top: 120px;
   }
 }
+
+
+@media (max-width: 780px) {
+  .type1 {
+    float: left;
+    width: 85px;
+    height: 85px;
+    background: #5a5a5a;
+    margin-top: 35px;
+  }
+
+    #left {
+    float: left;
+    margin-left: 0%;
+    margin-right: 22%;
+  }
+
+  #right {
+    float: left;
+    margin-left: 22%;
+    margin-right: 0%;
+  }
+
+  .centered {
+    width: 50rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .type1 {
+    width: 55px;
+    height: 55px;
+  }
+
+    #left {
+    float: left;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  #right {
+    float: left;
+    margin-left: 10%;
+    margin-right: 0%;
+  }
+
+  .centered {
+    width: 30rem;
+  }
+}
