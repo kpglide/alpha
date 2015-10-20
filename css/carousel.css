@@ -3,7 +3,7 @@
 /* Padding below the footer and lighter body text */
 
 body {
-  padding-bottom: 40px;
+  /*padding-bottom: 40px;*/
   color: #5a5a5a;
 }
 
@@ -68,6 +68,35 @@ body {
 -------------------------------------------------- */
 
 /* Center align the text within the three columns below the carousel */
+.centered {
+  margin: 0 auto;
+  width: 75rem;
+  float: none;
+}
+
+.circleBase {
+    border-radius: 50%;
+    behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+}
+
+.type1 {
+    float: left;
+    width: 120px;
+    height: 120px;
+    background: #5a5a5a;
+    margin-top: 35px;
+}
+
+#left {
+  float: left;
+  margin-right: 18rem;
+}
+
+#right {
+  float: left;
+  margin-left: 18rem;
+}
+
 .marketing .col-lg-4 {
   margin-bottom: 20px;
   text-align: center;
@@ -84,17 +113,11 @@ body {
 /* Featurettes
 ------------------------- */
 
-.featurette-divider {
-  margin: 80px 0; /* Space out the Bootstrap <hr> more */
+footer {
+  padding-top: 25px;
+  padding-bottom: 0;
+  clear: both;
 }
-
-/* Thin out the marketing headings */
-.featurette-heading {
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: -1px;
-}
-
 
 /* RESPONSIVE CSS
 -------------------------------------------------- */
