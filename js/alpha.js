@@ -1,27 +1,44 @@
 $(document).ready( function() {
 	var counter = 0;
-	var images = ['<a data-flickr-embed="true"  href="https://www.flickr.com/photos/markop/1036891509/in/photolist-8L5pXR-2zCkHP-7QyyFk-amb7f5-33dcfq-eeiohb-fMyGk4-eevkpn-a926nV-cSeJUL-bTXvJt-5RNEhL-pSNaGV-8UhEVz-dUGyic-4nC3Je-PFM2p-r6Fu82-8pfWzC-iYB9zX-eRhnD5-bHGLtX-eZR3Rs-3RTQEY-fw7xRW-9Dvc1e-62aW4h-pBNcLG-83GMgp-8t8HS3-ecipvC-rmRGkQ-eawd5X-6nTDi1-8t5GZ8-cwwLbh-fL8zRg-pti8wK-25ANGY-vTpCuc-nPqHBQ-axWkPm-QMBkx-p1PfJZ-qsBfVM-9vqSzw-dvsiGe-aUzrVc-84A7fp-oAjiFG" title="Velvet ant"><img src="https://farm2.staticflickr.com/1138/1036891509_8a7ea06d30.jpg" width="500" height="333" alt="Velvet ant"></a>',
-	'<a data-flickr-embed="true"  href="https://www.flickr.com/photos/autanex/519742656/in/photolist-MVPoh-nFtjjy-ovHV4t-cuCggo-aZQswr-MAkA5-rydUL6-6a9HTP-anA9LU-GKT5r-Mg5AQ-8h6fwG-47umw-23Ahkq-keqNav-9AsaH8-wg7eUz-9pJEE6-qkbFpG-p1z5jV-geqSxG-s9W6CY-8Ws8PR-51dnrz-nACbEn-sqdBT-AmDfx-sMCHaX-einqJY-6G74xK-n3PAzS-cVm7Kh-pDwkoy-g3RcZX-edxF67-nrT2sg-Quava-tFqsrF-6FZecp-2uixP-fFYkMt-4qoK6P-53ofRb-fi6FJZ-fi6Ftx-qpwCcM-qFovUG-psrCVf-vqBG1G" title="European Honey Bee Touching Down"><img src="https://farm1.staticflickr.com/210/519742656_0b2323bc8e.jpg" width="500" height="333" alt="European Honey Bee Touching Down"></a>'
-	]
-	var captions = ['Ant', 'Bee'];
+
+	var captions = ['Ant', 'Bee', 'Cat', 'Dog', 'Eel', 'Fox', 'Gecko', 'Horse', 'Iguana', 
+					'Jaguar', 'Kangaroo', 'Lion', 'Moose', 'Newt', 'Octopus', 'Pig', 'Quail',
+					'Rabbit', 'Seal', 'Turtle', 'Uakari', 'Vulture', 'Walrus', 'Xenops',
+					'Yak', 'Zebra'  
+					];
 	
-	$('.item .container').append(images[counter]);
-	imageStyles();
+	getImageTag(captions[counter], function(images_array) {
+    	var image = images_array[Math.floor(Math.random()*images_array.length)];
+    	$('.item .container').append(image);
+		imageStyles();
+    });
+
+    getLetter(captions, counter);
 
 	$('.carousel-caption').html('<h1>' + captions[counter] + '</h1>');
 	
 	$('.right.carousel-control').click( function(event){
 		counter++;
-		$('.item .container').html('<div>' + images[counter] + '</div>');
-		imageStyles();
+		$('.item .container').empty();
+		getImageTag(captions[counter], function(images_array) {
+    		var image = images_array[Math.floor(Math.random()*images_array.length)];
+    		$('.item .container').append(image);
+			imageStyles();
+		});	
 		$('.carousel-caption').html('<h1>' + captions[counter] + '</h1>');
+		getLetter(captions, counter);
 	});
 
 	$('.left.carousel-control').click( function(event){
 		counter--;
-		$('.item .container').html('<div>' + images[counter] + '</div>');
-		imageStyles();
+		$('.item .container').empty();
+		getImageTag(captions[counter], function(images_array) {
+    		var image = images_array[Math.floor(Math.random()*images_array.length)];
+    		$('.item .container').append(image);
+			imageStyles();
+		});	
 		$('.carousel-caption').html('<h1>' + captions[counter] + '</h1>');
+		getLetter(captions, counter);
 	});
 });
 	
@@ -37,37 +54,49 @@ var imageStyles = function() {
 	});
 };
 
-/*
-// this function takes the question object returned by StackOverflow 
-// and creates new result to be appended to DOM
-var showQuestion = function(question) {
-	
-	// clone our result template code
-	var result = $('.templates .question').clone();
-	
-	// Set the question properties in result
-	var questionElem = result.find('.question-text a');
-	questionElem.attr('href', question.link);
-	questionElem.text(question.title);
+//accepts the desired text to search as a string, and then searches flickr
+//API for images with that text.  Creates an <img> html tag using the url of 
+//each image, and then selects one of the <img> tag at random and returns it.
+var getImageTag = function(text, callback) {
 
-	// set the date asked property in result
-	var asked = result.find('.asked-date');
-	var date = new Date(1000*question.creation_date);
-	asked.text(date.toString());
+	var k = '4d7473ee5d51627ddf5a43de869b35d9';
 
-	// set the #views for question property in result
-	var viewed = result.find('.viewed');
-	viewed.text(question.view_count);
-
-	// set some properties related to asker
-	var asker = result.find('.asker');
-	asker.html('<p>Name: <a target="_blank" href=http://stackoverflow.com/users/' + question.owner.user_id + ' >' +
-													question.owner.display_name +
-												'</a>' +
-							'</p>' +
- 							'<p>Reputation: ' + question.owner.reputation + '</p>'
-	);
-
-	return result;
+	var url = "https://api.flickr.com/services/rest/?method=flickr.photos.search&" +
+            "api_key=" + k + "&tags=animal" + "&text=" + text + "&license=2&" +
+            "sort=relevance&per_page=5&safe_search=1&tag_mode=all";
+      
+	$.getJSON(url + "&format=json&jsoncallback=?", function(data) {
+              var images = [];
+              $.each(data.photos.photo, function(i, item) {
+                    var photoURL = 'http://farm' + item.farm + '.static.flickr.com/' + 
+                                   item.server + '/' + item.id + '_' + item.secret + '.jpg';
+                    var imageTag = '<img src="' + photoURL + '"' +
+                    				'width=475 height=333>';
+                    images.push(imageTag);
+              });
+              callback(images);
+    });
 };
-*/
+
+//uses counter variable to determine which caption is being displayed.  Displays
+//letter of alphabet associaed with that caption in a div.  Displays preceding letter
+//in div to left and following letter in div to right
+var getLetter = function(captions, counter) {
+	if (counter > 0) {
+		var left = '<h2>' + captions[counter-1][0] + '</h2>';
+	} else {
+		var left = '<h2>' + captions[25][0] + '</h2>';
+	}
+	if (counter < 25) {
+		var right = '<h2>' + captions[counter+1][0] + '</h2>';
+	} else {
+		var right = '<h2>' + captions[0][0] + '</h2>';
+	}
+
+	var center = '<h2>' + captions[counter][0] + '</h2>';
+
+	$('#left').html(left);
+	$('#right').html(right);
+	$('#center').html(center);
+}
+ 
