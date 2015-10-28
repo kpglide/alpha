@@ -185,7 +185,7 @@ footer {
 }
 
 
-@media (max-width: 780px) {
+@media (max-width: 750px) {
   .type1 {
     float: left;
     width: 85px;
@@ -232,4 +232,18 @@ footer {
   .centered {
     width: 30rem;
   }
+
+  .carousel {
+    height: 400px;
+  }
+
+  .carousel .item {
+    height: 400px;
+  }
+
+  #image-container {
+    min-height: 180px;
+    padding-top: 35px;
+  }
+
 }

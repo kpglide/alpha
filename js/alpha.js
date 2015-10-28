@@ -84,10 +84,21 @@ var getImageTag = function(text, callback) {
 	$.getJSON(url + "&format=json&jsoncallback=?", function(data) {
               var images = [];
               $.each(data.photos.photo, function(i, item) {
+                    if ($(window).width() < 515) {
+              			var extension = '_m.jpg';
+              			var size = '>';
+              		} 
+              		else if ($(window).width() < 751) {
+                    	var extension = '_n.jpg';
+                    	var size = 'height=240>';
+                    } 
+                    else {
+                    	var extension = '.jpg';
+                    	var size = 'height=375>';
+                    }
                     var photoURL = 'http://farm' + item.farm + '.static.flickr.com/' + 
-                                   item.server + '/' + item.id + '_' + item.secret + '.jpg';
-                    var imageTag = '<img src="' + photoURL + '"' +
-                    				'height=375>';
+                                   item.server + '/' + item.id + '_' + item.secret + extension;
+                    var imageTag = '<img src="' + photoURL + '"' + size;
                     images.push(imageTag);
               });
               callback(images);
