@@ -17,20 +17,35 @@ $(document).ready( function() {
 
 	$('.carousel-caption').html('<h1>' + captions[counter] + '</h1>');
 	
-	$('.right.carousel-control').click( function(event){
-		counter++;
-		$('.item .container').empty();
-		getImageTag(captions[counter], function(images_array) {
-    		var image = images_array[Math.floor(Math.random()*images_array.length)];
-    		$('.item .container').append(image);
-			imageStyles();
-		});	
-		$('.carousel-caption').html('<h1>' + captions[counter] + '</h1>');
-		getLetter(captions, counter);
-	});
+	$('.right.carousel-control').click(navRight);
+	$('#right').click(navRight);
 
-	$('.left.carousel-control').click( function(event){
+	$('.left.carousel-control').click(navLeft);
+	$('#left').click(navLeft);
+
+	function navLeft() {
 		counter--;
+		if (counter < 0) {
+			counter = 25;
+		}
+	
+		$('.item .container').empty();
+	
+		getImageTag(captions[counter], function(images_array) {
+    		var image = images_array[Math.floor(Math.random()*images_array.length)];
+    		$('.item .container').append(image);
+			imageStyles();
+		});	
+	
+		$('.carousel-caption').html('<h1>' + captions[counter] + '</h1>');
+		getLetter(captions, counter);
+	}
+
+	function navRight() {
+		counter++;
+		if (counter > 25) {
+			counter = 0;
+		}
 		$('.item .container').empty();
 		getImageTag(captions[counter], function(images_array) {
     		var image = images_array[Math.floor(Math.random()*images_array.length)];
@@ -39,7 +54,8 @@ $(document).ready( function() {
 		});	
 		$('.carousel-caption').html('<h1>' + captions[counter] + '</h1>');
 		getLetter(captions, counter);
-	});
+	}
+
 });
 	
 var imageStyles = function() {
@@ -62,7 +78,7 @@ var getImageTag = function(text, callback) {
 	var k = '4d7473ee5d51627ddf5a43de869b35d9';
 
 	var url = "https://api.flickr.com/services/rest/?method=flickr.photos.search&" +
-            "api_key=" + k + "&tags=animal" + "&text=" + text + "&license=2&" +
+            "api_key=" + k + "&text=" + text + "&license=2&" +
             "sort=relevance&per_page=5&safe_search=1&tag_mode=all";
       
 	$.getJSON(url + "&format=json&jsoncallback=?", function(data) {
@@ -71,7 +87,7 @@ var getImageTag = function(text, callback) {
                     var photoURL = 'http://farm' + item.farm + '.static.flickr.com/' + 
                                    item.server + '/' + item.id + '_' + item.secret + '.jpg';
                     var imageTag = '<img src="' + photoURL + '"' +
-                    				'width=475 height=333>';
+                    				'height=375>';
                     images.push(imageTag);
               });
               callback(images);

@@ -39,20 +39,30 @@ body {
 
 /* Carousel base class */
 .carousel {
-  height: 475px;
+  height: 515px;
   margin-bottom: 15px;
+}
+
+#image-container {
+  min-height: 375px;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
   position: static;
   z-index: 10;
+  padding-bottom: 0; 
+  padding-top: 0;
 }
 
 /* Declare heights because of positioning of img element */
 .carousel .item {
   margin-top: 40px;
-  height: 475px;
+  height: 515px;
   background-color: #777;
+}
+
+#myCarousel {
+  margin-bottom: 0;
 }
 
 /*.carousel-inner > .item > img {
@@ -81,16 +91,25 @@ body {
 
 .type1 {
     float: left;
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     background: #5a5a5a;
-    margin-top: 35px;
+    margin-top: 15px;
     color: #fff;
     text-align: center;
+
+}
+
+#left:hover, #right:hover {
+    color: #fff;
+    opacity: 0.9;
+    outline: 0 none;
+    text-decoration: none;
 }
 
 #left {
   float: left;
+  margin-left: 1em;
   margin-right: 18rem;
 }
 
@@ -109,6 +128,10 @@ body {
 .marketing .col-lg-4 p {
   margin-right: 10px;
   margin-left: 10px;
+}
+
+.container-marketing {
+  padding-top: 0;
 }
 
 
@@ -188,10 +211,10 @@ footer {
   }
 }
 
-@media (max-width: 550px) {
+@media (max-width: 515px) {
   .type1 {
-    width: 55px;
-    height: 55px;
+    width: 60px;
+    height: 60px;
   }
 
     #left {
