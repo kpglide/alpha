@@ -178,14 +178,12 @@ footer {
   }
 }
 
-@media (min-width: 992px) {
-  .featurette-heading {
-    margin-top: 120px;
+@media (max-width: 620px) {
+  #image-container {
+    min-height: 180px;
+    padding-top: 65px;
   }
-}
 
-
-@media (max-width: 750px) {
   .type1 {
     float: left;
     width: 85px;

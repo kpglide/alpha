@@ -1,3 +1,6 @@
+//TODO -- Adjust image size on browser resize
+//TODO -- Fix image sizing & styles for mid-sized breakpoint
+
 $(document).ready( function() {
 	var counter = 0;
 
@@ -56,6 +59,23 @@ $(document).ready( function() {
 		getLetter(captions, counter);
 	}
 
+	$(window).on('resize', function(){
+        var source = $('img').attr('src');
+        reg = new RegExp(/(_[mn])*\.jpg/);
+        if ($(window).width() < 515) {
+            source = source.replace(reg, '_m.jpg');
+            $('img').attr('src', source);
+        } 
+        else if ($(window).width() < 751) {
+            source = source.replace(reg, '_n.jpg');
+            $('img').attr('src', source);
+		} 
+        else {
+            source = source.replace(reg, '.jpg');
+            $('img').attr('src', source);
+        }
+	});
+
 });
 	
 var imageStyles = function() {
@@ -68,6 +88,13 @@ var imageStyles = function() {
 		"display": "block",
 		"margin": "50px auto 0 auto"
 	});
+
+	$('img').load(function() {
+		if ($('img').height() > 375) {
+			$('img').height(375);
+		}
+	});
+
 };
 
 //accepts the desired text to search as a string, and then searches flickr
@@ -90,11 +117,11 @@ var getImageTag = function(text, callback) {
               		} 
               		else if ($(window).width() < 751) {
                     	var extension = '_n.jpg';
-                    	var size = 'height=240>';
+                    	var size = '>';
                     } 
                     else {
                     	var extension = '.jpg';
-                    	var size = 'height=375>';
+                    	var size = '>';
                     }
                     var photoURL = 'http://farm' + item.farm + '.static.flickr.com/' + 
                                    item.server + '/' + item.id + '_' + item.secret + extension;
@@ -103,6 +130,7 @@ var getImageTag = function(text, callback) {
               });
               callback(images);
     });
+
 };
 
 //uses counter variable to determine which caption is being displayed.  Displays
