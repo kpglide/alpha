@@ -26,6 +26,18 @@ $(document).ready( function() {
 	$('.left.carousel-control').click(navLeft);
 	$('#left').click(navLeft);
 
+	$('#home').on('click', function() {
+		counter = 0;
+		$('.item .container').empty();
+		getImageTag(captions[counter], function(images_array) {
+    		var image = images_array[Math.floor(Math.random()*images_array.length)];
+    		$('.item .container').append(image);
+			imageStyles();
+		});	
+		$('.carousel-caption').html('<h1>' + captions[counter] + '</h1>');
+		getLetter(captions, counter);
+	});
+
 	function navLeft() {
 		counter--;
 		if (counter < 0) {
@@ -74,6 +86,7 @@ $(document).ready( function() {
             source = source.replace(reg, '.jpg');
             $('img').attr('src', source);
         }
+        imageStyles();
 	});
 
 	for (var i = 0; i < 26; i++) {
@@ -112,6 +125,15 @@ var imageStyles = function() {
 		if ($('img').height() > 375) {
 			$('img').height(375);
 		}
+		if (($('img').height() >= 375) && ($(window).width() < 768)) {
+        	$('img').height('');
+    	}
+		if (($('img').height() > 300) && ($(window).width() < 768)) {
+        	$('#image-container').css('padding-top', '35px');
+    	}
+    	else {
+    		$('#image-container').attr('style', '');
+    	}
 	});
 
 };
@@ -124,8 +146,9 @@ var getImageTag = function(text, callback) {
 	var k = '4d7473ee5d51627ddf5a43de869b35d9';
 
 	var url = "https://api.flickr.com/services/rest/?method=flickr.photos.search&" +
-            "api_key=" + k + "&text=" + text + "&license=2&" +
-            "sort=relevance&per_page=5&safe_search=1&tag_mode=all";
+            "api_key=" + k + "&text=" + text + "&tags=animal,bird" +
+            "&license=1,2,3,4,5,6&" + 
+            "sort=relevance&per_page=5&safe_search=1&tag_mode=any";
       
 	$.getJSON(url + "&format=json&jsoncallback=?", function(data) {
               var images = [];
