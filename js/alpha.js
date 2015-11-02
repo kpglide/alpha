@@ -66,7 +66,7 @@ $(document).ready( function() {
             source = source.replace(reg, '_m.jpg');
             $('img').attr('src', source);
         } 
-        else if ($(window).width() < 751) {
+        else if ($(window).width() < 768) {
             source = source.replace(reg, '_n.jpg');
             $('img').attr('src', source);
 		} 
@@ -74,6 +74,25 @@ $(document).ready( function() {
             source = source.replace(reg, '.jpg');
             $('img').attr('src', source);
         }
+	});
+
+	for (var i = 0; i < 26; i++) {
+		var letter = captions[i][0];
+		var list_element = '<li class="letter" id="' + i + '"><a href="#">' +
+							letter + '</a></li>'
+		$('#letters-menu').append(list_element)
+	}
+
+	$('.letter').on('click', function() {
+		counter = parseInt($(this).attr('id'));
+		$('.item .container').empty();
+		getImageTag(captions[counter], function(images_array) {
+    		var image = images_array[Math.floor(Math.random()*images_array.length)];
+    		$('.item .container').append(image);
+			imageStyles();
+		});	
+		$('.carousel-caption').html('<h1>' + captions[counter] + '</h1>');
+		getLetter(captions, counter);
 	});
 
 });

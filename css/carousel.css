@@ -178,10 +178,18 @@ footer {
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 768px) {
   #image-container {
     min-height: 180px;
     padding-top: 65px;
+  }
+
+  .carousel {
+    height: 450px;
+  }
+
+  .carousel .item {
+    height: 450px;
   }
 
   .type1 {
